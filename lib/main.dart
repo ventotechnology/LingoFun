@@ -36,7 +36,7 @@ class LingoFunApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => QuestsProvider()),
       ],
       child: MaterialApp(
-        title: 'Lingo Fun',
+        title: 'LingoFunLearn',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(

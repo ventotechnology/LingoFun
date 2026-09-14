@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>LingoFun</string>
+	<string>LingoFunLearn</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>LingoFun uses the microphone for interactive pronunciation and speaking practice.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

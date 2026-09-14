@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Welcome back to LingoFun!',
+                'Welcome back to LingoFunLearn!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 22,

@@ -65,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
                                 Text('🦜', style: TextStyle(fontSize: 20)),
                                 SizedBox(width: 8),
                                 Text(
-                                  'LingoFun',
+                                  'LingoFunLearn',
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w900,

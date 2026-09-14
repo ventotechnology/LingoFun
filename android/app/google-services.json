@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "614665764814-hkm0ecapgagsgc0q3u48ldq9v338a4ln.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.antigravity.lingoFun",
+            "certificate_hash": "bf0c8a539944a801ebee8c5c815cf17030855765"
+          }
+        },
+        {
           "client_id": "614665764814-mgd0j0jvfjcm2qocktmm3hodms7gndav.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -71,6 +79,14 @@
           "android_info": {
             "package_name": "com.antigravity.lingo_fun",
             "certificate_hash": "bd998532ac57ae536f0839f2935458b26c40b99f"
+          }
+        },
+        {
+          "client_id": "614665764814-h3abjdsp3ikjocag6hu9pegbgc67r7lv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.antigravity.lingo_fun",
+            "certificate_hash": "bf0c8a539944a801ebee8c5c815cf17030855765"
           }
         },
         {

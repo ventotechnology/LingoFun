@@ -1,6 +1,6 @@
 {
-    "name": "lingo_fun",
-    "short_name": "lingo_fun",
+    "name": "LingoFunLearn",
+    "short_name": "LingoFunLearn",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

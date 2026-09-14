@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lingo_fun/main.dart';
+import 'package:lingo_fun/models/auth_user.dart';
 import 'package:lingo_fun/models/exercise.dart';
 import 'package:lingo_fun/models/mascot_outfit.dart';
 import 'package:lingo_fun/models/story.dart';
+import 'package:lingo_fun/providers/auth_provider.dart';
 import 'package:lingo_fun/providers/game_progress_provider.dart';
 import 'package:lingo_fun/providers/quests_provider.dart';
 import 'package:lingo_fun/screens/lesson/widgets/speaking_challenge_widget.dart';
 import 'package:lingo_fun/screens/match_madness/match_madness_screen.dart';
+import 'package:lingo_fun/screens/onboarding/learning_goal_screen.dart';
+import 'package:lingo_fun/screens/onboarding/login_screen.dart';
+import 'package:lingo_fun/screens/onboarding/native_language_screen.dart';
+import 'package:lingo_fun/screens/onboarding/quick_signup_screen.dart';
+import 'package:lingo_fun/screens/onboarding/target_language_screen.dart';
+import 'package:lingo_fun/screens/onboarding/welcome_screen.dart';
 import 'package:lingo_fun/screens/stories/stories_tab_screen.dart';
 import 'package:lingo_fun/screens/stories/story_player_screen.dart';
 import 'package:lingo_fun/services/audio_feedback_service.dart';
 import 'package:lingo_fun/services/curriculum_data.dart';
+import 'package:lingo_fun/widgets/lingo_mascot.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,16 +29,249 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  testWidgets('App smoke test launches with lesson map and top bar',
+  testWidgets('App smoke test for first-time learner launches with WelcomeScreen and Lingo mascot',
       (WidgetTester tester) async {
     await tester.pumpWidget(const LingoFunApp());
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
 
-    // Verify top bar elements
+    // Verify Welcome Screen elements
+    expect(find.text('LingoFun'), findsOneWidget);
+    expect(find.text('GET STARTED'), findsOneWidget);
+    expect(find.text('I ALREADY HAVE AN ACCOUNT'), findsOneWidget);
+    expect(find.byType(LingoMascot), findsOneWidget);
+  });
+
+  testWidgets('App smoke test for returning learner launches directly into MainNavigationShell',
+      (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({
+      'lingo_auth_user_v1': '{"id":"user_123","name":"Test Learner","email":"test@lingofun.app","authMethod":"google","nativeLanguage":"en","targetCourseId":"spanish","dailyGoalMinutes":15,"learningReason":"career","createdAt":"2026-09-14T00:00:00.000"}'
+    });
+
+    await tester.pumpWidget(const LingoFunApp());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify top bar elements on MainNavigationShell
     expect(find.text('🇪🇸'), findsOneWidget);
     expect(find.text('UNIT 1'), findsOneWidget);
     expect(find.text('Order food, introduce yourself'), findsOneWidget);
+  });
+
+  group('AuthProvider & Authentication Tests', () {
+    test('Initial unauthenticated state', () {
+      final auth = AuthProvider();
+      expect(auth.isAuthenticated, isFalse);
+      expect(auth.isOnboardingCompleted, isFalse);
+      expect(auth.currentUser, isNull);
+    });
+
+    test('1-Tap Google Sign-In sets user and completes onboarding', () async {
+      final auth = AuthProvider();
+      final success = await auth.signInWithGoogle(
+        name: 'Alex Rivera',
+        email: 'alex.rivera@gmail.com',
+        nativeLanguage: 'bn',
+        targetCourseId: 'bangla_to_english',
+        dailyGoalMinutes: 15,
+        learningReason: 'career',
+      );
+
+      expect(success, isTrue);
+      expect(auth.isAuthenticated, isTrue);
+      expect(auth.isOnboardingCompleted, isTrue);
+      expect(auth.currentUser?.name, equals('Alex Rivera'));
+      expect(auth.currentUser?.email, equals('alex.rivera@gmail.com'));
+      expect(auth.currentUser?.isGoogle, isTrue);
+      expect(auth.currentUser?.nativeLanguage, equals('bn'));
+      expect(auth.targetCourseId, equals('bangla_to_english'));
+    });
+
+    test('Email Sign-Up sets user profile', () async {
+      final auth = AuthProvider();
+      final success = await auth.signupWithEmail(
+        name: 'Sarah Khan',
+        email: 'sarah@example.com',
+        password: 'securePassword123',
+        nativeLanguage: 'hi',
+        targetCourseId: 'english_to_hindi',
+        dailyGoalMinutes: 20,
+      );
+
+      expect(success, isTrue);
+      expect(auth.currentUser?.name, equals('Sarah Khan'));
+      expect(auth.currentUser?.email, equals('sarah@example.com'));
+      expect(auth.currentUser?.isEmail, isTrue);
+    });
+
+    test('Guest Learner mode starts seamlessly', () async {
+      final auth = AuthProvider();
+      final success = await auth.continueAsGuest(
+        nativeLanguage: 'es',
+        targetCourseId: 'french',
+      );
+
+      expect(success, isTrue);
+      expect(auth.currentUser?.isGuest, isTrue);
+      expect(auth.currentUser?.name, equals('Explorer Guest'));
+      expect(auth.targetCourseId, equals('french'));
+    });
+
+    test('Sign Out clears current user and onboarding state', () async {
+      final auth = AuthProvider();
+      await auth.continueAsGuest();
+      expect(auth.isAuthenticated, isTrue);
+
+      await auth.signOut();
+      expect(auth.isAuthenticated, isFalse);
+      expect(auth.currentUser, isNull);
+      expect(auth.isOnboardingCompleted, isFalse);
+    });
+
+    test('AuthUser model serialization and defaults', () {
+      final user = AuthUser(
+        id: 'u1',
+        name: 'Test',
+        authMethod: 'google',
+        createdAt: DateTime.now(),
+      );
+      expect(user.isGoogle, isTrue);
+      expect(user.displayName, equals('Test'));
+      expect(NativeLanguage.supportedLanguages, isNotEmpty);
+    });
+  });
+
+  group('Onboarding UI Flow Tests', () {
+    testWidgets('WelcomeScreen renders Lingo branding and navigation buttons',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: WelcomeScreen(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.text('LingoFun'), findsOneWidget);
+      expect(find.text('GET STARTED'), findsOneWidget);
+      expect(find.text('I ALREADY HAVE AN ACCOUNT'), findsOneWidget);
+    });
+
+    testWidgets('LoginScreen renders email, password fields and Google button',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+          child: const MaterialApp(
+            home: LoginScreen(),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.text('Sign In'), findsOneWidget);
+      expect(find.text('Continue with Google'), findsOneWidget);
+      expect(find.text('SIGN IN'), findsOneWidget);
+      expect(find.text('Continue as Guest Learner'), findsOneWidget);
+    });
+    testWidgets('NativeLanguageScreen lists languages and selects Bangla',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: NativeLanguageScreen(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.text('What language do you speak?'), findsOneWidget);
+      expect(find.text('Bengali'), findsOneWidget);
+      expect(find.text('English'), findsOneWidget);
+
+      // Tap Bengali
+      await tester.tap(find.text('Bengali'));
+      await tester.pump();
+
+      expect(find.text('CONTINUE'), findsOneWidget);
+    });
+
+    testWidgets('TargetLanguageScreen renders course recommendations for Bengali speakers',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: TargetLanguageScreen(nativeLanguageCode: 'bn'),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.text('লক্ষ্য ভাষা নির্বাচন করুন'), findsOneWidget);
+      expect(find.text('ইংরেজি শিখুন (English)'), findsOneWidget);
+      expect(find.text('স্প্যানিশ (Spanish)'), findsOneWidget);
+    });
+
+    testWidgets('LearningGoalScreen allows pace and reason selection',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: LearningGoalScreen(
+            nativeLanguageCode: 'en',
+            targetCourseId: 'spanish',
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.text('Why are you learning?'), findsOneWidget);
+      expect(find.text('Career & Professional Growth'), findsOneWidget);
+      expect(find.text('Travel & Exploration'), findsOneWidget);
+    });
+
+    testWidgets('QuickSignupScreen renders Google 1-tap, email modal, and guest mode',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+          child: const MaterialApp(
+            home: QuickSignupScreen(
+              nativeLanguageCode: 'en',
+              targetCourseId: 'spanish',
+              dailyGoalMinutes: 15,
+              learningReason: 'career',
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.text('CONTINUE WITH GOOGLE'), findsOneWidget);
+      expect(find.text('SIGN UP WITH EMAIL'), findsOneWidget);
+      expect(find.text('START LEARNING AS GUEST'), findsOneWidget);
+    });
+
+    testWidgets('LingoMascot renders custom original design without Duolingo assets',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: LingoMascot(
+                size: 150,
+                mood: MascotMood.celebrating,
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.byType(LingoMascot), findsOneWidget);
+      expect(find.byType(CustomPaint), findsWidgets);
+    });
   });
 
   group('GameProgressProvider Tests', () {

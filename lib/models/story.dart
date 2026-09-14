@@ -13,54 +13,71 @@ class StoryCharacter {
     required this.themeColor,
   });
 
-  static const StoryCharacter junior = StoryCharacter(
-    id: 'junior',
-    name: 'Junior',
+  // Original International Cast
+  static const StoryCharacter ayan = StoryCharacter(
+    id: 'ayan',
+    name: 'Ayan',
     avatarEmoji: '🧢',
     themeColor: Color(0xFF1CB0F6),
   );
 
-  static const StoryCharacter bea = StoryCharacter(
-    id: 'bea',
-    name: 'Bea',
+  static const StoryCharacter maya = StoryCharacter(
+    id: 'maya',
+    name: 'Maya',
     avatarEmoji: '👓',
     themeColor: Color(0xFFCE82FF),
   );
 
-  static const StoryCharacter oscar = StoryCharacter(
-    id: 'oscar',
-    name: 'Oscar',
+  static const StoryCharacter sophia = StoryCharacter(
+    id: 'sophia',
+    name: 'Sophia',
     avatarEmoji: '🎨',
     themeColor: Color(0xFFFF9600),
   );
 
-  static const StoryCharacter lin = StoryCharacter(
-    id: 'lin',
-    name: 'Lin',
+  static const StoryCharacter kenji = StoryCharacter(
+    id: 'kenji',
+    name: 'Kenji',
     avatarEmoji: '🎧',
     themeColor: Color(0xFF2B70C9),
   );
 
-  static const StoryCharacter vikram = StoryCharacter(
-    id: 'vikram',
-    name: 'Vikram',
+  static const StoryCharacter rafi = StoryCharacter(
+    id: 'rafi',
+    name: 'Rafi',
     avatarEmoji: '👨‍🍳',
     themeColor: Color(0xFFFFC800),
   );
 
-  static const StoryCharacter lily = StoryCharacter(
-    id: 'lily',
-    name: 'Lily',
+  static const StoryCharacter luna = StoryCharacter(
+    id: 'luna',
+    name: 'Luna',
     avatarEmoji: '💜',
     themeColor: Color(0xFFA560EB),
   );
 
-  static const StoryCharacter zari = StoryCharacter(
-    id: 'zari',
-    name: 'Zari',
+  static const StoryCharacter priya = StoryCharacter(
+    id: 'priya',
+    name: 'Priya',
     avatarEmoji: '🌸',
     themeColor: Color(0xFFFF4B4B),
   );
+
+  static const StoryCharacter lingo = StoryCharacter(
+    id: 'lingo',
+    name: 'Lingo',
+    avatarEmoji: '🦜',
+    themeColor: Color(0xFF00C4CC),
+  );
+
+  // Backward compatibility aliases
+  static const StoryCharacter junior = ayan;
+  static const StoryCharacter bea = maya;
+  static const StoryCharacter oscar = sophia;
+  static const StoryCharacter lin = kenji;
+  static const StoryCharacter vikram = rafi;
+  static const StoryCharacter lily = luna;
+  static const StoryCharacter zari = priya;
 }
 
 class CheckpointQuestion {

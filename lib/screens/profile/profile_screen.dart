@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../models/auth_user.dart';
 import '../../models/mascot_outfit.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/game_progress_provider.dart';
 import '../../services/curriculum_data.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/duo_mascot.dart';
 import '../../widgets/duo_progress_bar.dart';
+import '../onboarding/native_language_screen.dart';
+import '../onboarding/welcome_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -13,8 +17,27 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final progress = context.watch<GameProgressProvider>();
+    final auth = context.watch<AuthProvider>();
+    final user = auth.currentUser;
     final activeCourse = CurriculumData.getCourse(progress.activeCourseId);
     final outfit = MascotOutfit.getById(progress.equippedOutfitId);
+
+    final nativeLang = NativeLanguage.supportedLanguages.firstWhere(
+      (l) => l.code == (user?.nativeLanguageCode ?? 'en'),
+      orElse: () => NativeLanguage.supportedLanguages.first,
+    );
+
+    final displayName = (user != null && user.displayName.isNotEmpty)
+        ? user.displayName
+        : 'Polyglot Master';
+    final emailText = (user != null && user.email != null && user.email!.isNotEmpty)
+        ? user.email!
+        : 'Guest Learner';
+    final authBadge = user?.authMethod == 'google'
+        ? '🇬 Google'
+        : user?.authMethod == 'email'
+            ? '✉️ Email'
+            : '👤 Guest';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -56,14 +79,14 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Polyglot Master',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textDark),
+                    Text(
+                      displayName,
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textDark),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      '@learner • Joined September 2026',
-                      style: TextStyle(fontSize: 13, color: AppColors.textMuted, fontWeight: FontWeight.w600),
+                    Text(
+                      '$emailText • $authBadge',
+                      style: const TextStyle(fontSize: 13, color: AppColors.textMuted, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 6),
                     Wrap(
@@ -73,6 +96,36 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           '${activeCourse.flag} ${activeCourse.title}',
                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppColors.blueDark),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.blueLight.withValues(alpha: 0.35),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '🗣️ ${nativeLang.nativeName}',
+                            style: const TextStyle(
+                              color: AppColors.blueDark,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.orange.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '⏱️ ${user?.dailyGoalMinutes ?? 15}m/day',
+                            style: const TextStyle(
+                              color: AppColors.orangeDark,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -237,6 +290,34 @@ class ProfileScreen extends StatelessWidget {
                       activeThumbColor: AppColors.green,
                       onChanged: (val) {
                         progress.toggleSound();
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.language_rounded, color: AppColors.blueDark),
+                      title: const Text('Spoken & Target Languages', style: TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: const Text('Change your native tongue or pick a new course'),
+                      trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.textMuted),
+                      onTap: () {
+                        Navigator.pop(ctx);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const NativeLanguageScreen()),
+                        );
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.logout_rounded, color: AppColors.orange),
+                      title: const Text('Sign Out / Switch Account', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.orangeDark)),
+                      subtitle: const Text('Sign in with Google, email, or switch profile'),
+                      onTap: () async {
+                        Navigator.pop(ctx);
+                        await context.read<AuthProvider>().signOut();
+                        if (!context.mounted) return;
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+                          (route) => false,
+                        );
                       },
                     ),
                     const Divider(),

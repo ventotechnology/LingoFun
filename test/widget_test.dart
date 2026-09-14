@@ -67,18 +67,14 @@ void main() {
       expect(auth.currentUser, isNull);
     });
 
-    test('1-Tap Google Sign-In sets user and completes onboarding', () async {
-      final auth = AuthProvider();
-      final success = await auth.signInWithGoogle(
-        name: 'Alex Rivera',
-        email: 'alex.rivera@gmail.com',
-        nativeLanguage: 'bn',
-        targetCourseId: 'bangla_to_english',
-        dailyGoalMinutes: 15,
-        learningReason: 'career',
-      );
+    test('Authenticated user loads from storage correctly', () async {
+      SharedPreferences.setMockInitialValues({
+        'lingo_auth_user_v1': '{"id":"g_real_123","name":"Alex Rivera","email":"alex.rivera@gmail.com","authMethod":"google","nativeLanguage":"bn","targetCourseId":"bangla_to_english","dailyGoalMinutes":15,"learningReason":"career","createdAt":"2026-09-14T00:00:00.000"}'
+      });
 
-      expect(success, isTrue);
+      final auth = AuthProvider();
+      await Future.delayed(const Duration(milliseconds: 50));
+
       expect(auth.isAuthenticated, isTrue);
       expect(auth.isOnboardingCompleted, isTrue);
       expect(auth.currentUser?.name, equals('Alex Rivera'));
@@ -88,39 +84,28 @@ void main() {
       expect(auth.targetCourseId, equals('bangla_to_english'));
     });
 
-    test('Email Sign-Up sets user profile', () async {
+    test('Legacy guest or mock learner accounts are purged immediately', () async {
+      SharedPreferences.setMockInitialValues({
+        'lingo_auth_user_v1': '{"id":"mock_123","name":"Google Learner","email":"learner.google@lingofun.app","authMethod":"google","nativeLanguage":"en","targetCourseId":"spanish","dailyGoalMinutes":10,"learningReason":"career","createdAt":"2026-09-14T00:00:00.000"}'
+      });
+
       final auth = AuthProvider();
-      final success = await auth.signupWithEmail(
+      await Future.delayed(const Duration(milliseconds: 50));
+
+      expect(auth.isAuthenticated, isFalse);
+      expect(auth.currentUser, isNull);
+      expect(auth.isOnboardingCompleted, isFalse);
+    });
+
+    test('Sign Out clears current user and authentication state', () async {
+      final auth = AuthProvider();
+      auth.setUserForTesting(AuthUser(
+        id: 'u_1',
         name: 'Sarah Khan',
         email: 'sarah@example.com',
-        password: 'securePassword123',
-        nativeLanguage: 'hi',
-        targetCourseId: 'english_to_hindi',
-        dailyGoalMinutes: 20,
-      );
-
-      expect(success, isTrue);
-      expect(auth.currentUser?.name, equals('Sarah Khan'));
-      expect(auth.currentUser?.email, equals('sarah@example.com'));
-      expect(auth.currentUser?.isEmail, isTrue);
-    });
-
-    test('Guest Learner mode starts seamlessly', () async {
-      final auth = AuthProvider();
-      final success = await auth.continueAsGuest(
-        nativeLanguage: 'es',
-        targetCourseId: 'french',
-      );
-
-      expect(success, isTrue);
-      expect(auth.currentUser?.isGuest, isTrue);
-      expect(auth.currentUser?.name, equals('Explorer Guest'));
-      expect(auth.targetCourseId, equals('french'));
-    });
-
-    test('Sign Out clears current user and onboarding state', () async {
-      final auth = AuthProvider();
-      await auth.continueAsGuest();
+        authMethod: 'email',
+        createdAt: DateTime(2026, 9, 14),
+      ));
       expect(auth.isAuthenticated, isTrue);
 
       await auth.signOut();

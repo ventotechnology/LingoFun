@@ -27,17 +27,15 @@ class ProfileScreen extends StatelessWidget {
       orElse: () => NativeLanguage.supportedLanguages.first,
     );
 
-    final displayName = (user != null && user.displayName.isNotEmpty)
-        ? user.displayName
-        : 'Polyglot Master';
+    final displayName = (user != null && user.displayName.trim().isNotEmpty)
+        ? user.displayName.trim()
+        : (user?.email != null && user!.email!.contains('@')
+            ? user.email!.split('@').first
+            : 'Learner');
     final emailText = (user != null && user.email != null && user.email!.isNotEmpty)
         ? user.email!
-        : 'Guest Learner';
-    final authBadge = user?.authMethod == 'google'
-        ? 'Google'
-        : user?.authMethod == 'email'
-            ? '✉️ Email'
-            : '👤 Guest';
+        : '';
+    final authBadge = user?.authMethod == 'google' ? 'Google' : '✉️ Email';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -100,7 +98,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '$emailText • $authBadge',
+                      emailText.isNotEmpty ? '$emailText • $authBadge' : authBadge,
                       style: const TextStyle(fontSize: 13, color: AppColors.textMuted, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 6),

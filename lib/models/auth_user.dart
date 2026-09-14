@@ -3,7 +3,7 @@ class AuthUser {
   final String name;
   final String? email;
   final String? avatarUrl;
-  final String authMethod; // 'google', 'email', 'guest'
+  final String authMethod; // 'google', 'email'
   final String nativeLanguage; // 'bn', 'en', 'es', 'hi', 'zh', 'fr', 'ja'
   final String targetCourseId;
   final int dailyGoalMinutes; // 5, 10, 15, 20
@@ -23,7 +23,6 @@ class AuthUser {
     required this.createdAt,
   });
 
-  bool get isGuest => authMethod == 'guest';
   bool get isGoogle => authMethod == 'google';
   bool get isEmail => authMethod == 'email';
 
@@ -77,7 +76,7 @@ class AuthUser {
       name: json['name'] as String? ?? 'Learner',
       email: json['email'] as String?,
       avatarUrl: json['avatarUrl'] as String?,
-      authMethod: json['authMethod'] as String? ?? 'guest',
+      authMethod: json['authMethod'] as String? ?? 'email',
       nativeLanguage: json['nativeLanguage'] as String? ?? 'en',
       targetCourseId: json['targetCourseId'] as String? ?? 'spanish',
       dailyGoalMinutes: json['dailyGoalMinutes'] as int? ?? 10,

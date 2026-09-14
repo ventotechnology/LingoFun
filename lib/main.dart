@@ -61,7 +61,7 @@ class LingoFunApp extends StatelessWidget {
               ),
             );
           }
-          if (!auth.isOnboardingCompleted) {
+          if (!auth.isAuthenticated) {
             return const WelcomeScreen();
           }
           return const MainNavigationShell();

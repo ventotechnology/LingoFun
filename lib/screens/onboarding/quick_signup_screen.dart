@@ -124,7 +124,7 @@ class _QuickSignupScreenState extends State<QuickSignupScreen> {
 
     try {
       final auth = context.read<AuthProvider>();
-      await auth.signInWithGoogle(
+      final success = await auth.signInWithGoogle(
         avatarUrl: _selectedAvatar,
         nativeLanguage: widget.nativeLanguageCode,
         targetCourseId: widget.targetCourseId,
@@ -132,12 +132,17 @@ class _QuickSignupScreenState extends State<QuickSignupScreen> {
         learningReason: widget.learningReason,
       );
 
-      _finishAndEnterApp();
+      if (!mounted) return;
+      if (success) {
+        _finishAndEnterApp();
+      } else {
+        setState(() => _isLoading = false);
+      }
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _errorMessage = 'Google sign-in could not be completed: $e';
+        _errorMessage = 'Google sign-in could not be completed: ${e.toString().replaceAll('Exception: ', '')}';
       });
     }
   }

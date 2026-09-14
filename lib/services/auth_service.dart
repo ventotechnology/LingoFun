@@ -13,7 +13,12 @@ class AuthService {
   Future<void> initialize() async {
     if (!kIsWeb && !_googleSignInInitialized) {
       try {
-        await GoogleSignIn.instance.initialize();
+        await GoogleSignIn.instance.initialize(
+          serverClientId: '614665764814-oacbs4g4f97rcsah3gos83d2ps060gpr.apps.googleusercontent.com',
+          clientId: defaultTargetPlatform == TargetPlatform.iOS
+              ? '614665764814-sc8qhoub32tsrs5fo0euouj5513eh85m.apps.googleusercontent.com'
+              : null,
+        );
         _googleSignInInitialized = true;
       } catch (e) {
         debugPrint('GoogleSignIn.initialize warning: $e');
@@ -36,8 +41,12 @@ class AuthService {
         await initialize();
         final googleUser = await GoogleSignIn.instance.authenticate();
         final googleAuth = googleUser.authentication;
+        final String? idToken = googleAuth.idToken;
+        if (idToken == null || idToken.isEmpty) {
+          throw Exception('Unable to acquire Google ID Token. Please check account permissions.');
+        }
         final AuthCredential credential = GoogleAuthProvider.credential(
-          idToken: googleAuth.idToken,
+          idToken: idToken,
         );
 
         return await _auth.signInWithCredential(credential);

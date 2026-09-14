@@ -12,13 +12,26 @@ class WelcomeScreen extends StatelessWidget {
 
   Future<void> _handleGoogleSignIn(BuildContext context) async {
     final auth = context.read<AuthProvider>();
-    await auth.signInWithGoogle();
-    if (!context.mounted) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const NativeLanguageScreen(isGooglePostAuth: true),
-      ),
-    );
+    try {
+      final success = await auth.signInWithGoogle();
+      if (!context.mounted) return;
+      if (success) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const NativeLanguageScreen(isGooglePostAuth: true),
+          ),
+        );
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Google Sign-In failed: ${e.toString().replaceAll('Exception: ', '')}'),
+          backgroundColor: AppColors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   @override

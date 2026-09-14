@@ -83,14 +83,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final auth = context.read<AuthProvider>();
-      await auth.signInWithGoogle();
+      final success = await auth.signInWithGoogle();
       if (!mounted) return;
-      _finishAndNavigate();
+      if (success) {
+        _finishAndNavigate();
+      } else {
+        setState(() => _isLoading = false);
+      }
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _errorMessage = 'Google sign-in could not be completed: $e';
+        _errorMessage = 'Google sign-in could not be completed: ${e.toString().replaceAll('Exception: ', '')}';
       });
     }
   }

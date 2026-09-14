@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDYUZRdO9OOXDo3l3fFmAZcMLffocTJuW4',
-    appId: '1:614665764814:android:65e1a600f4a179ee06759f',
+    appId: '1:614665764814:android:e71b7f3d10337a4f06759f',
     messagingSenderId: '614665764814',
     projectId: 'lingofun-prod-1789373308',
     storageBucket: 'lingofun-prod-1789373308.firebasestorage.app',

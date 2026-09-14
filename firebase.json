@@ -1,0 +1,14 @@
+{
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "LingoFun",
+        "supportEmail": "bloodsoft24@gmail.com",
+        "authorizedRedirectUris": [
+          "https://lingofun.vpshub.biz"
+        ]
+      },
+      "emailPassword": true
+    }
+  }
+}

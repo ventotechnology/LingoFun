@@ -72,11 +72,21 @@ class ProfileScreen extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: AppColors.green, width: 3),
                 ),
-                child: Text(
-                  (user != null && user.avatarUrl != null && user.avatarUrl!.isNotEmpty)
-                      ? user.avatarUrl!
-                      : '😎',
-                  style: const TextStyle(fontSize: 40),
+                child: ClipOval(
+                  child: (user != null && user.avatarUrl != null && user.avatarUrl!.startsWith('http'))
+                      ? Image.network(
+                          user.avatarUrl!,
+                          width: 76,
+                          height: 76,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Text('🦜', style: TextStyle(fontSize: 40)),
+                        )
+                      : Text(
+                          (user != null && user.avatarUrl != null && user.avatarUrl!.isNotEmpty)
+                              ? user.avatarUrl!
+                              : '😎',
+                          style: const TextStyle(fontSize: 40),
+                        ),
                 ),
               ),
               const SizedBox(width: 16),

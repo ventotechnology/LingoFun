@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "614665764814",
+    "project_id": "lingofun-prod-1789373308",
+    "storage_bucket": "lingofun-prod-1789373308.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614665764814:android:65e1a600f4a179ee06759f",
+        "android_client_info": {
+          "package_name": "com.antigravity.lingoFun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614665764814-oacbs4g4f97rcsah3gos83d2ps060gpr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYUZRdO9OOXDo3l3fFmAZcMLffocTJuW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614665764814-oacbs4g4f97rcsah3gos83d2ps060gpr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "614665764814-sc8qhoub32tsrs5fo0euouj5513eh85m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.antigravity.lingoFun"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614665764814:android:e71b7f3d10337a4f06759f",
+        "android_client_info": {
+          "package_name": "com.antigravity.lingo_fun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614665764814-oacbs4g4f97rcsah3gos83d2ps060gpr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYUZRdO9OOXDo3l3fFmAZcMLffocTJuW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614665764814-oacbs4g4f97rcsah3gos83d2ps060gpr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "614665764814-sc8qhoub32tsrs5fo0euouj5513eh85m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.antigravity.lingoFun"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -12,6 +12,8 @@
 	<string>LingoFun uses the microphone for interactive pronunciation and speaking practice.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>LingoFun analyzes pronunciation to help you learn languages faster.</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

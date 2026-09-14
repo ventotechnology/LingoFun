@@ -37,7 +37,8 @@ void main() {
 
     // Verify Welcome Screen elements
     expect(find.text('LingoFun'), findsOneWidget);
-    expect(find.text('GET STARTED'), findsOneWidget);
+    expect(find.text('CREATE PROFILE'), findsOneWidget);
+    expect(find.text('CONTINUE WITH GOOGLE'), findsOneWidget);
     expect(find.text('I ALREADY HAVE AN ACCOUNT'), findsOneWidget);
     expect(find.byType(LingoMascot), findsOneWidget);
   });
@@ -153,7 +154,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
 
       expect(find.text('LingoFun'), findsOneWidget);
-      expect(find.text('GET STARTED'), findsOneWidget);
+      expect(find.text('CREATE PROFILE'), findsOneWidget);
+      expect(find.text('CONTINUE WITH GOOGLE'), findsOneWidget);
       expect(find.text('I ALREADY HAVE AN ACCOUNT'), findsOneWidget);
     });
 
@@ -173,7 +175,7 @@ void main() {
       expect(find.text('Sign In'), findsOneWidget);
       expect(find.text('Continue with Google'), findsOneWidget);
       expect(find.text('SIGN IN'), findsOneWidget);
-      expect(find.text('Continue as Guest Learner'), findsOneWidget);
+      expect(find.text('CREATE PROFILE'), findsOneWidget);
     });
     testWidgets('NativeLanguageScreen lists languages and selects Bangla',
         (WidgetTester tester) async {
@@ -229,7 +231,7 @@ void main() {
       expect(find.text('Travel & Exploration'), findsOneWidget);
     });
 
-    testWidgets('QuickSignupScreen renders Google 1-tap, email modal, and guest mode',
+    testWidgets('QuickSignupScreen renders profile creation, avatar picker, and Google 1-tap',
         (WidgetTester tester) async {
       await tester.pumpWidget(
         ChangeNotifierProvider(
@@ -247,9 +249,10 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
+      expect(find.text('Create Your Profile'), findsOneWidget);
+      expect(find.text('CHOOSE YOUR AVATAR'), findsOneWidget);
+      expect(find.text('CREATE PROFILE & START'), findsOneWidget);
       expect(find.text('CONTINUE WITH GOOGLE'), findsOneWidget);
-      expect(find.text('SIGN UP WITH EMAIL'), findsOneWidget);
-      expect(find.text('START LEARNING AS GUEST'), findsOneWidget);
     });
 
     testWidgets('LingoMascot renders custom original design without Duolingo assets',

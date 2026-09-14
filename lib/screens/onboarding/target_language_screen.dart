@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/game_progress_provider.dart';
 import '../../services/audio_feedback_service.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/duo_3d_button.dart';
 import '../../widgets/duo_progress_bar.dart';
 import '../../widgets/lingo_mascot.dart';
+import '../main_navigation_shell.dart';
 import 'learning_goal_screen.dart';
 
 class TargetLanguageScreen extends StatefulWidget {
   final String nativeLanguageCode;
+  final bool isGooglePostAuth;
 
   const TargetLanguageScreen({
     super.key,
     required this.nativeLanguageCode,
+    this.isGooglePostAuth = false,
   });
 
   @override
@@ -309,15 +315,32 @@ class _TargetLanguageScreenState extends State<TargetLanguageScreen> {
                   variant: DuoButtonVariant.primary,
                   height: 52,
                   onPressed: _selectedCourseId != null
-                      ? () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => LearningGoalScreen(
-                                nativeLanguageCode: widget.nativeLanguageCode,
-                                targetCourseId: _selectedCourseId!,
+                      ? () async {
+                          if (widget.isGooglePostAuth) {
+                            final auth = context.read<AuthProvider>();
+                            final progress = context.read<GameProgressProvider>();
+                            await auth.updatePreferences(
+                              nativeLanguage: widget.nativeLanguageCode,
+                              targetCourseId: _selectedCourseId!,
+                            );
+                            progress.switchCourse(_selectedCourseId!);
+                            if (!context.mounted) return;
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (_) => const MainNavigationShell(),
                               ),
-                            ),
-                          );
+                              (route) => false,
+                            );
+                          } else {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => LearningGoalScreen(
+                                  nativeLanguageCode: widget.nativeLanguageCode,
+                                  targetCourseId: _selectedCourseId!,
+                                ),
+                              ),
+                            );
+                          }
                         }
                       : null,
                 ),

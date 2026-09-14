@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
         ? user.email!
         : 'Guest Learner';
     final authBadge = user?.authMethod == 'google'
-        ? '🇬 Google'
+        ? 'Google'
         : user?.authMethod == 'email'
             ? '✉️ Email'
             : '👤 Guest';
@@ -72,7 +72,12 @@ class ProfileScreen extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: AppColors.green, width: 3),
                 ),
-                child: const Text('😎', style: TextStyle(fontSize: 42)),
+                child: Text(
+                  (user != null && user.avatarUrl != null && user.avatarUrl!.isNotEmpty)
+                      ? user.avatarUrl!
+                      : '😎',
+                  style: const TextStyle(fontSize: 40),
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(

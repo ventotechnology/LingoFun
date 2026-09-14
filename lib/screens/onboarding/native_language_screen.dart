@@ -7,7 +7,9 @@ import '../../widgets/lingo_mascot.dart';
 import 'target_language_screen.dart';
 
 class NativeLanguageScreen extends StatefulWidget {
-  const NativeLanguageScreen({super.key});
+  final bool isGooglePostAuth;
+
+  const NativeLanguageScreen({super.key, this.isGooglePostAuth = false});
 
   @override
   State<NativeLanguageScreen> createState() => _NativeLanguageScreenState();
@@ -168,6 +170,7 @@ class _NativeLanguageScreenState extends State<NativeLanguageScreen> {
                             MaterialPageRoute(
                               builder: (_) => TargetLanguageScreen(
                                 nativeLanguageCode: _selectedLanguageCode!,
+                                isGooglePostAuth: widget.isGooglePostAuth,
                               ),
                             ),
                           );

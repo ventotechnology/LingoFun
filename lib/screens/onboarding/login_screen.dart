@@ -6,6 +6,7 @@ import '../../theme/app_colors.dart';
 import '../../widgets/duo_3d_button.dart';
 import '../../widgets/lingo_mascot.dart';
 import '../main_navigation_shell.dart';
+import 'native_language_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -92,18 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
         _errorMessage = 'Google sign-in could not be completed: $e';
       });
     }
-  }
-
-  Future<void> _handleGuestLogin() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-
-    final auth = context.read<AuthProvider>();
-    await auth.continueAsGuest();
-    if (!mounted) return;
-    _finishAndNavigate();
   }
 
   @override
@@ -214,7 +203,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.white,
                       ),
                       alignment: Alignment.center,
-                      child: const Text('🇬', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+                      child: const Text(
+                        'G',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF4285F4),
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     const Text(
@@ -313,20 +309,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: _handleEmailLogin,
                     ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
 
-              // Guest Quick Access
-              TextButton(
-                onPressed: _isLoading ? null : _handleGuestLogin,
-                child: const Text(
-                  'Continue as Guest Learner',
-                  style: TextStyle(
-                    color: AppColors.textMuted,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
+              // Create Account Link
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account? ",
+                    style: TextStyle(color: AppColors.textMuted, fontWeight: FontWeight.w600, fontSize: 13),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => const NativeLanguageScreen()),
+                      );
+                    },
+                    child: const Text(
+                      'CREATE PROFILE',
+                      style: TextStyle(
+                        color: AppColors.greenDark,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              const SizedBox(height: 12),
             ],
           ),
         ),

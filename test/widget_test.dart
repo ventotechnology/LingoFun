@@ -450,6 +450,37 @@ void main() {
         }
       }
     });
+
+    test('Bangla to English course has 100% all levels (A1 to C2) across 20 units', () {
+      final units = CurriculumData.getUnitsForCourse('bangla_to_english');
+      expect(units.length, equals(20), reason: 'Expected 20 comprehensive units');
+
+      final levelBadges = units.map((u) => u.levelBadge).whereType<String>().toSet();
+      expect(levelBadges.contains('A1'), isTrue, reason: 'Missing A1 Beginner');
+      expect(levelBadges.contains('A2'), isTrue, reason: 'Missing A2 Elementary');
+      expect(levelBadges.contains('B1'), isTrue, reason: 'Missing B1 Intermediate');
+      expect(levelBadges.contains('B2'), isTrue, reason: 'Missing B2 Upper-Intermediate');
+      expect(levelBadges.contains('C1/C2'), isTrue, reason: 'Missing C1/C2 Advanced Mastery');
+
+      final allExerciseIds = <String>{};
+      int totalLessons = 0;
+      for (final unit in units) {
+        totalLessons += unit.lessons.length;
+        for (final lesson in unit.lessons) {
+          for (final ex in lesson.exercises) {
+            expect(allExerciseIds.contains(ex.id), isFalse,
+                reason: 'Duplicate exercise id: ${ex.id}');
+            allExerciseIds.add(ex.id);
+          }
+        }
+      }
+
+      expect(totalLessons, greaterThanOrEqualTo(40));
+      expect(allExerciseIds.length, greaterThanOrEqualTo(100));
+
+      final stories = StoriesData.getStoriesForCourse('bangla_to_english');
+      expect(stories.length, equals(5));
+    });
   });
 
   group('Stories Engine Tests', () {

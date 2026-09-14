@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/exercise.dart';
 import '../models/lesson.dart';
 import '../theme/app_colors.dart';
+import 'curriculum_bangla_to_english.dart';
 
 class CurriculumData {
   static final List<Unit> units = [
@@ -606,149 +607,8 @@ class CurriculumData {
     ),
   ];
 
-  // BANGLA TO ENGLISH (ইংরেজি শিখুন - English for Bengali Speakers)
-  static final List<Unit> banglaToEnglishUnits = [
-    Unit(
-      id: 'bn_en_u1',
-      unitNumber: 1,
-      title: 'সাধারণ সম্ভাষণ ও পরিচিতি',
-      description: 'সহজে ইংরেজিতে অভিবাদন ও নিজের পরিচয় দিতে শিখুন',
-      themeColor: const Color(0xFF006A4E), // Bangladesh Green
-      lessons: [
-        Lesson(
-          id: 'bn_en_u1_l1',
-          title: 'অভিবাদন ও শুভেচ্ছা',
-          description: 'Hello, Good morning, Thank you',
-          icon: Icons.waving_hand_rounded,
-          xpReward: 15,
-          exercises: [
-            const MultipleChoiceExercise(
-              id: 'bn_en_u1_l1_e1',
-              prompt: '"হ্যালো / ওহে" এর সঠিক ইংরেজি কোনটি?',
-              question: 'হ্যালো',
-              options: ['👋 Hello', '🍎 Apple', '💧 Water'],
-              correctIndex: 0,
-              speakerText: 'Hello',
-            ),
-            const SentenceBuilderExercise(
-              id: 'bn_en_u1_l1_e2',
-              prompt: 'বাক্যটি বাংলায় অনুবাদ অনুসারে সাজান: "আমি ভালো আছি"',
-              sentenceToTranslate: 'আমি ভালো আছি',
-              correctSequence: ['I', 'am', 'fine'],
-              tokenBank: ['I', 'am', 'fine', 'you', 'is', 'good', 'he'],
-              speakerText: 'I am fine',
-            ),
-            const MatchingPairExercise(
-              id: 'bn_en_u1_l1_e3',
-              prompt: 'সঠিক জোড়াগুলো মেলাও:',
-              pairs: {
-                'হ্যালো': 'Hello',
-                'ধন্যবাদ': 'Thank you',
-                'শুভ সকাল': 'Good morning',
-                'বিদায়': 'Goodbye',
-              },
-            ),
-            const SpeakingExercise(
-              id: 'bn_en_u1_l1_e4',
-              prompt: 'মাইক্রোফোনে বাক্যটি স্পষ্ট উচ্চারণ করুন:',
-              targetPhrase: 'Good morning my friend',
-              translation: 'শুভ সকাল আমার বন্ধু',
-              targetWords: ['Good', 'morning', 'my', 'friend'],
-              speakerText: 'Good morning my friend',
-            ),
-            const FillInBlankExercise(
-              id: 'bn_en_u1_l1_e5',
-              prompt: 'উপযুক্ত শব্দ দিয়ে শূন্যস্থান পূরণ করুন:',
-              prefix: 'Thank ',
-              blankAnswer: 'you',
-              suffix: ' very much.',
-              options: ['you', 'water', 'eat'],
-              speakerText: 'Thank you very much.',
-            ),
-          ],
-        ),
-        Lesson(
-          id: 'bn_en_u1_l2',
-          title: 'নিজের পরিচয় দেওয়া',
-          description: 'My name is, Friend, How are you',
-          icon: Icons.person_rounded,
-          xpReward: 20,
-          exercises: [
-            const MultipleChoiceExercise(
-              id: 'bn_en_u1_l2_e1',
-              prompt: '"বন্ধু" শব্দের ইংরেজি অর্থ কী?',
-              question: 'বন্ধু',
-              options: ['🤝 Friend', '🏠 House', '📖 Book'],
-              correctIndex: 0,
-              speakerText: 'Friend',
-            ),
-            const SentenceBuilderExercise(
-              id: 'bn_en_u1_l2_e2',
-              prompt: 'ইংরেজি বাক্যটি সাজান: "আমার নাম জন"',
-              sentenceToTranslate: 'আমার নাম জন',
-              correctSequence: ['My', 'name', 'is', 'John'],
-              tokenBank: ['My', 'name', 'is', 'John', 'Your', 'are', 'friend'],
-              speakerText: 'My name is John',
-            ),
-            const MatchingPairExercise(
-              id: 'bn_en_u1_l2_e3',
-              prompt: 'জোড়া মেলাও:',
-              pairs: {
-                'বন্ধু': 'Friend',
-                'নাম': 'Name',
-                'কেমন আছেন': 'How are you',
-                'হ্যাঁ': 'Yes',
-              },
-            ),
-          ],
-        ),
-      ],
-    ),
-    Unit(
-      id: 'bn_en_u2',
-      unitNumber: 2,
-      title: 'খাবার, পানি ও রেস্তোরাঁ',
-      description: 'দৈনন্দিন খাবার ও পানির ইংরেজি শব্দ শিখুন',
-      themeColor: AppColors.orange,
-      lessons: [
-        Lesson(
-          id: 'bn_en_u2_l1',
-          title: 'খাবার ও পানীয়',
-          description: 'Water, Rice, Bread, Tea',
-          icon: Icons.restaurant_rounded,
-          xpReward: 20,
-          exercises: [
-            const MultipleChoiceExercise(
-              id: 'bn_en_u2_l1_e1',
-              prompt: '"পানি" এর ইংরেজি শব্দ নির্বাচন করুন:',
-              question: 'পানি',
-              options: ['💧 Water', '🥛 Milk', '☕ Tea'],
-              correctIndex: 0,
-              speakerText: 'Water',
-            ),
-            const SentenceBuilderExercise(
-              id: 'bn_en_u2_l1_e2',
-              prompt: 'বাক্যটি সাজান: "আমি ভাত খাই"',
-              sentenceToTranslate: 'আমি ভাত খাই',
-              correctSequence: ['I', 'eat', 'rice'],
-              tokenBank: ['I', 'eat', 'rice', 'drink', 'bread', 'water'],
-              speakerText: 'I eat rice',
-            ),
-            const MatchingPairExercise(
-              id: 'bn_en_u2_l1_e3',
-              prompt: 'শব্দগুলো মেলাও:',
-              pairs: {
-                'পানি': 'Water',
-                'ভাত': 'Rice',
-                'রুটি': 'Bread',
-                'চা': 'Tea',
-              },
-            ),
-          ],
-        ),
-      ],
-    ),
-  ];
+  // BANGLA TO ENGLISH (ইংরেজি শিখুন - English for Bengali Speakers - All Levels A1 to C2)
+  static final List<Unit> banglaToEnglishUnits = banglaToEnglishCurriculum;
 
   // ENGLISH TO BENGALI (বাংলা ভাষা শিক্ষা)
   static final List<Unit> bengaliUnits = [
@@ -1034,7 +894,7 @@ class CurriculumData {
       id: 'bangla_to_english',
       title: 'ইংরেজি শিখুন (Bangla → English)',
       flag: '🇧🇩',
-      description: 'বাংলা মাধ্যমে সহজে ইংরেজি বলা ও ব্যাকরণ শিখুন • 2 Units',
+      description: 'বাংলা মাধ্যমে সহজে ইংরেজি বলা ও ব্যাকরণ শিখুন • ২০টি ইউনিট (A1 থেকে C2 স্তর)',
       ttsLocale: 'en-US',
       units: banglaToEnglishUnits,
     ),

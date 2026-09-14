@@ -87,6 +87,85 @@ class _UnitSection extends StatelessWidget {
 
     return Column(
       children: [
+        if (unit.levelTitle != null)
+          Container(
+            margin: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  unit.themeColor.withValues(alpha: 0.15),
+                  Colors.amber.withValues(alpha: 0.1),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: unit.themeColor.withValues(alpha: 0.35),
+                width: 2,
+              ),
+            ),
+            child: Row(
+              children: [
+                if (unit.levelBadge != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    margin: const EdgeInsets.only(right: 14),
+                    decoration: BoxDecoration(
+                      color: unit.themeColor,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: unit.themeColor.withValues(alpha: 0.4),
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      unit.levelBadge!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 14,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'PROFICIENCY MILESTONE',
+                        style: TextStyle(
+                          color: unit.themeColor,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 11,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        unit.levelTitle!,
+                        style: const TextStyle(
+                          color: Color(0xFF1E293B),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.stars_rounded,
+                  color: Colors.amber,
+                  size: 28,
+                ),
+              ],
+            ),
+          ),
         // Unit Banner Header
         Container(
           margin: const EdgeInsets.all(16),

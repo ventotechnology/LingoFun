@@ -26,6 +26,8 @@ class Unit {
   final String description;
   final Color themeColor;
   final List<Lesson> lessons;
+  final String? levelTitle;
+  final String? levelBadge;
 
   const Unit({
     required this.id,
@@ -34,6 +36,8 @@ class Unit {
     required this.description,
     required this.themeColor,
     required this.lessons,
+    this.levelTitle,
+    this.levelBadge,
   });
 }
 

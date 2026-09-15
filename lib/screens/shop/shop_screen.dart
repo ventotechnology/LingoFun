@@ -67,7 +67,7 @@ class ShopScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'SUPER DUOLINGO',
+                  'SUPER LINGOFUN',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
@@ -154,9 +154,9 @@ class ShopScreen extends StatelessWidget {
           ),
           const SizedBox(height: 28),
 
-          // DUO'S WARDROBE SECTION
+          // PARROT'S WARDROBE SECTION
           const Text(
-            "DUO'S WARDROBE",
+            "PARROT'S WARDROBE",
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w800,
@@ -166,7 +166,7 @@ class ShopScreen extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           const Text(
-            'Dress up Duo with unlockable hats and custom skins!',
+            'Dress up the Parrot with unlockable hats and custom skins!',
             style: TextStyle(fontSize: 13, color: AppColors.textMuted),
           ),
           const SizedBox(height: 16),

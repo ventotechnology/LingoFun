@@ -1,3 +1,6 @@
+import 'streak_modal.dart';
+import 'hearts_modal.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/game_progress_provider.dart';
@@ -59,7 +62,7 @@ class DuoTopBar extends StatelessWidget {
 
             // Streak Flame
             InkWell(
-              onTap: onStreakTap,
+              onTap: onStreakTap ?? () => StreakModal.show(context),
               borderRadius: BorderRadius.circular(12),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
@@ -107,7 +110,7 @@ class DuoTopBar extends StatelessWidget {
 
             // Hearts / Lives
             InkWell(
-              onTap: onHeartsTap,
+              onTap: onHeartsTap ?? () => HeartsModal.show(context),
               borderRadius: BorderRadius.circular(12),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),

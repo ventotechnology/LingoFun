@@ -20,8 +20,8 @@ class MascotOutfit {
 
   static const MascotOutfit classic = MascotOutfit(
     id: 'classic',
-    name: 'Classic Duo',
-    description: 'The iconic feathered green owl you know and love.',
+    name: 'Classic Parrot',
+    description: 'The iconic colorful parrot you know and love.',
     costGems: 0,
     emoji: '🦉',
     themeColor: AppColors.green,

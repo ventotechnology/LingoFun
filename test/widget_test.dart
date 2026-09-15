@@ -36,7 +36,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     // Verify Welcome Screen elements
-    expect(find.text('LingoFun'), findsOneWidget);
+    expect(find.text('LingoFunLearn'), findsOneWidget);
     expect(find.text('CREATE PROFILE'), findsOneWidget);
     expect(find.text('CONTINUE WITH GOOGLE'), findsOneWidget);
     expect(find.text('I ALREADY HAVE AN ACCOUNT'), findsOneWidget);
@@ -138,7 +138,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
-      expect(find.text('LingoFun'), findsOneWidget);
+      expect(find.text('LingoFunLearn'), findsOneWidget);
       expect(find.text('CREATE PROFILE'), findsOneWidget);
       expect(find.text('CONTINUE WITH GOOGLE'), findsOneWidget);
       expect(find.text('I ALREADY HAVE AN ACCOUNT'), findsOneWidget);

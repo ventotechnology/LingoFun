@@ -25,40 +25,17 @@ class LessonMapScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(56),
         child: DuoTopBar(),
       ),
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.extended(
-            heroTag: 'fab_match_madness',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MatchMadnessScreen()),
-              );
-            },
-            backgroundColor: const Color(0xFF7C4DFF),
-            foregroundColor: Colors.white,
-            elevation: 4,
-            icon: const Icon(Icons.bolt_rounded, size: 24),
-            label: const Text(
-              'MADNESS',
-              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 0.8),
-            ),
-          ),
-          const SizedBox(width: 10),
-          FloatingActionButton.extended(
-            heroTag: 'fab_quests',
-            onPressed: () => DailyQuestsModal.show(context),
-            backgroundColor: AppColors.yellow,
-            foregroundColor: Colors.white,
-            elevation: 4,
-            icon: const Icon(Icons.stars_rounded, size: 24),
-            label: const Text(
-              'QUESTS',
-              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 0.8),
-            ),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'fab_quests',
+        onPressed: () => DailyQuestsModal.show(context),
+        backgroundColor: AppColors.yellow,
+        foregroundColor: Colors.white,
+        elevation: 4,
+        icon: const Icon(Icons.stars_rounded, size: 24),
+        label: const Text(
+          'QUESTS',
+          style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 0.8),
+        ),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.only(bottom: 80),

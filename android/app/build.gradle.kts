@@ -12,7 +12,7 @@ plugins {
 
 android {
     namespace = "com.antigravity.lingo_fun"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

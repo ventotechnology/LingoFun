@@ -3,6 +3,7 @@ import '../theme/app_colors.dart';
 import 'home/lesson_map_screen.dart';
 import 'leaderboard/leaderboard_screen.dart';
 import 'practice/practice_screen.dart';
+import 'practice/practice_hub_screen.dart';
 import 'profile/profile_screen.dart';
 import 'shop/shop_screen.dart';
 import 'stories/stories_tab_screen.dart';
@@ -20,7 +21,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
   final List<Widget> _screens = const [
     LessonMapScreen(),
     StoriesTabScreen(),
-    PracticeScreen(),
+    PracticeHubScreen(),
     LeaderboardScreen(),
     ShopScreen(),
     ProfileScreen(),

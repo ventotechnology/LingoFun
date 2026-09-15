@@ -225,6 +225,28 @@ class GameProgressProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void skipAheadToUnit(int targetUnitIndex) {
+    final allUnits = CurriculumData.getUnitsForCourse(_activeCourseId);
+    if (targetUnitIndex <= 0 || targetUnitIndex >= allUnits.length) return;
+
+    final updatedCompleted = Set<String>.from(_progress.completedLessonIds);
+    for (int i = 0; i < targetUnitIndex; i++) {
+      for (final lesson in allUnits[i].lessons) {
+        updatedCompleted.add(lesson.id);
+      }
+    }
+    
+    // Give them some XP for skipping ahead
+    final xpReward = targetUnitIndex * 50;
+    
+    _progress = _progress.copyWith(
+      completedLessonIds: updatedCompleted,
+      totalXp: _progress.totalXp + xpReward,
+    );
+    _saveToStorage();
+    notifyListeners();
+  }
+
   Future<void> _loadFromStorage() async {
     try {
       final prefs = await SharedPreferences.getInstance();
